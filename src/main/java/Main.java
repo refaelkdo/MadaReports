@@ -18,15 +18,10 @@ public class Main
         parserFactoryHashMap.put("csv2", new CsvParserFactory("C:\\Users\\REFAEL\\Desktop\\MadaReports\\src\\main\\resources\\LabTests.csv"));
         transformFactoryHashMap.put("labTests", new LabTestsTransformFactory(new LabValidateData()));
         writerFactoryHashMap.put("json", new JsonWriterFactory("C:\\Users\\REFAEL\\Desktop\\mada_repots\\report", new MadaReportConverter()));
+        String[] names = new String[]{"IDNum", "IDType", "FirstName", "LastName", "ResultDate", "BirthDate", "LabCode", "StickerNumber", "ResultTestCorona", "Variant", "TestType", "JOIN_DATE", "HEALTH_CATE_ID", "HEALTH_CARE_NAME"};
+        writerFactoryHashMap.put("xml", new XMLWriterFactory(new XMLConverter(names), "C:\\Users\\REFAEL\\Desktop\\LabTests\\report"));
         List<String[]> data = parserFactoryHashMap.get("csv2").parse();
         data = transformFactoryHashMap.get("labTests").transform(data);
-        for(String[] line: data)
-        {
-            for (int i = 0; i < line.length; i++)
-            {
-                System.out.print(line[i] + "-----");
-            }
-            System.out.println();
-        }
+        writerFactoryHashMap.get("xml").write(data);
     }
 }
