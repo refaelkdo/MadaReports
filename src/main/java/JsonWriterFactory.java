@@ -13,19 +13,20 @@ public class JsonWriterFactory implements WriterFactory
     private String fileName;
     private Writer writer;
     private ConvertToClass method;
+    private FileChecker fileChecker;
 
     @Override
     public void write(List<String[]> data) throws IOException, InvocationTargetException, IllegalAccessException {
         int numLines = 0;
         int numFiles = 0;
-        MadaObject madaObject = new MadaObject();
         ObjectMapper objectMapper = new ObjectMapper();
+        this.writer = new FileWriter(this.fileName + numFiles + ".json");
         for (String[] line:data) {
-            if(numLines%MAX_LINES == 0)
+            if(this.fileChecker.checkValid(this.fileName + numFiles + ".json"))
             {
                 this.writer.flush();
-                this.writer = new FileWriter(this.fileName + numFiles + ".json");
                 numFiles++;
+                this.writer = new FileWriter(this.fileName + numFiles + ".json");
             }
             if(numLines != 0)
             {
@@ -40,9 +41,10 @@ public class JsonWriterFactory implements WriterFactory
         return fileName;
     }
 
-    public JsonWriterFactory(String fileName, ConvertToClass method) throws IOException {
+    public JsonWriterFactory(String fileName, ConvertToClass method,FileChecker fileChecker) throws IOException {
         this.fileName = fileName;
         this.method = method;
         this.writer = new FileWriter(fileName);
+        this.fileChecker = fileChecker;
     }
 }

@@ -9,6 +9,7 @@ public class XMLWriterFactory implements WriterFactory{
     private String fileName;
     private Writer writer;
     private ConvertToClass method;
+    private FileChecker fileChecker;
     @Override
     public void write(List<String[]> data) throws IOException, InvocationTargetException, IllegalAccessException {
         int numFiles = 0;
@@ -32,9 +33,10 @@ public class XMLWriterFactory implements WriterFactory{
         this.writer.flush();
     }
 
-    public XMLWriterFactory(ConvertToClass method, String fileName) throws IOException {
+    public XMLWriterFactory(ConvertToClass method, String fileName, FileChecker fileChecker) throws IOException {
         this.method = method;
         this.fileName = fileName;
         this.writer = new FileWriter(this.fileName);
+        this.fileChecker = fileChecker;
     }
 }

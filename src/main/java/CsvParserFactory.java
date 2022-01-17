@@ -18,26 +18,30 @@ public class CsvParserFactory implements ParserFactory
     public List<String[]> parse() throws IOException {
         List<String[]> data = new LinkedList<>();
         int i = 0;
+        int numLine = 0;
         ArrayList<String> line = new ArrayList<>();
         CSVParser records = CSVParser.parse(new File(filePath),
                 Charset.forName("utf-8"),
                 CSVFormat.DEFAULT);
         for(CSVRecord record:records)
         {
-            line = new ArrayList<>();
-            try {
-
-                while (record.get(i) != null) {
-                    line.add(record.get(i));
-                    i++;
-                }
-            }
-            catch (Exception e)
+            if(numLine != 0)
             {
+                line = new ArrayList<>();
+                try {
+                    while (record.get(i) != null) {
+                        line.add(record.get(i));
+                        i++;
+                    }
+                }
+                catch (Exception e)
+                {
 
+                }
+                data.add(line.toArray(String[]::new));
+                i = 0;
             }
-            data.add(line.toArray(String[]::new));
-            i = 0;
+            numLine++;
         }
         return data;
     }

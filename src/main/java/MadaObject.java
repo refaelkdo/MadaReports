@@ -20,20 +20,6 @@ public class MadaObject
     {
 
     }
-    public MadaObject(String MDACode, int IDNum, int IDType, String firstName, String lastName, String city, String street, int buildingNum, String barcode, String getDate, String takeDate, String resultDate) {
-        this.MDACode = MDACode;
-        this.IDNum = IDNum;
-        this.IDType = IDType;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.street = street;
-        this.buildingNum = buildingNum;
-        this.Barcode = barcode;
-        this.getDate = getDate;
-        this.takeDate = takeDate;
-        this.resultDate = resultDate;
-    }
 
     public MadaObject convertToClass(String[] data)
     {
