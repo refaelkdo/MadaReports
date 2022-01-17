@@ -28,6 +28,7 @@ public class XMLWriterFactory implements WriterFactory{
             }
             numLines++;
         }
+        this.writer.write("</labTests>");
         this.writer.flush();
     }
 
