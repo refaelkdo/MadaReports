@@ -1,3 +1,5 @@
+import health_care_provider.errors.InvalidIdException;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -8,20 +10,23 @@ import java.util.List;
 public class Main
 {
 
-    public static void main(String[] args) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static void main(String[] args) throws IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InvalidIdException {
         HashMap<String, ParserFactory> parserFactoryHashMap = new HashMap<>();
         HashMap<String, WriterFactory> writerFactoryHashMap = new HashMap<>();
-        parserFactoryHashMap.put("csv", new CsvParserFactory("C:\\Users\\REFAEL\\Desktop\\MadaReports\\src\\main\\resources\\MadaReports.csv"));
-        Class thisclass = MadaObject.class;
-        Method method = null;
-        Method[] methods = thisclass.getDeclaredMethods();
-        for(int i = 0; i < methods.length; i++)
-        {
-            if(methods[i].toString().equals("public MadaObject MadaObject.convertToClass(java.lang.String[])"))
-                method = methods[i];
-        }
+        HashMap<String, TransformFactory> transformFactoryHashMap = new HashMap<>();
+        parserFactoryHashMap.put("csv1", new CsvParserFactory("C:\\Users\\REFAEL\\Desktop\\MadaReports\\src\\main\\resources\\MadaReports.csv"));
+        parserFactoryHashMap.put("csv2", new CsvParserFactory("C:\\Users\\REFAEL\\Desktop\\MadaReports\\src\\main\\resources\\LabTests.csv"));
+        transformFactoryHashMap.put("labTests", new LabTestsTransformFactory(new LabValidateData()));
         writerFactoryHashMap.put("json", new JsonWriterFactory("C:\\Users\\REFAEL\\Desktop\\mada_repots\\report", new MadaReportConverter()));
-        List<String[]> data = parserFactoryHashMap.get("csv").parse();
-        writerFactoryHashMap.get("json").write(data);
+        List<String[]> data = parserFactoryHashMap.get("csv2").parse();
+        data = transformFactoryHashMap.get("labTests").transform(data);
+        for(String[] line: data)
+        {
+            for (int i = 0; i < line.length; i++)
+            {
+                System.out.print(line[i] + "-----");
+            }
+            System.out.println();
+        }
     }
 }
