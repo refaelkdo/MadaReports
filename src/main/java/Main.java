@@ -30,6 +30,7 @@ public class Main
         //List<String[]> data2 = parserFactoryHashMap.get("csv2").parse();
         data = parserFactoryHashMap.get("xlsx").parse();
         transformFactoryHashMap.put("protect", new IsProtectedFactory(new serologyValidateDara(), data));
+        writerFactoryHashMap.put("SQL", new SQLWriterFactory("Server=localhost\\SQLEXPRESS01;Database=master;Trusted_Connection=True;", "LabResults_SerologyKits" , new String[]{"int","int","string","string","date","date","string","string", "int", "int"} ));
         data = transformFactoryHashMap.get("protect").transform(data2);
         for(String[] line: data)
         {
