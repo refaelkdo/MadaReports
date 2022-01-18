@@ -7,10 +7,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class JsonWriterFactory implements WriterFactory
+public class JsonWriterFactory extends WriterFactory
 {
     private final int MAX_LINES = 50000;
-    private String fileName;
     private Writer writer;
     private ConvertToClass method;
     private FileChecker fileChecker;
@@ -42,7 +41,7 @@ public class JsonWriterFactory implements WriterFactory
     }
 
     public JsonWriterFactory(String fileName, ConvertToClass method,FileChecker fileChecker) throws IOException {
-        this.fileName = fileName;
+        super(fileName);
         this.method = method;
         this.writer = new FileWriter(fileName);
         this.fileChecker = fileChecker;
